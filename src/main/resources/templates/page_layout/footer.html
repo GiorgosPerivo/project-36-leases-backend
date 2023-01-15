@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<footer class="mt-auto text-white-50" th:fragment="footer">
+
+
+    <div sec:authorize="hasRole('ADMIN')">Text visible to admin.</div>
+    <div sec:authorize="isAuthenticated()">
+        Text visible only to authenticated users.
+        Authenticated username:
+        <div sec:authentication="name"></div>
+        Authenticated user roles:
+        <span class="badge bg-info" sec:authentication="principal.authorities"></span>
+    </div>
+
+    <p>Cover template for <a href="https://getbootstrap.com/" class="text-white">Bootstrap</a>, by <a href="https://twitter.com/mdo" class="text-white">@mdo</a>.</p>
+</footer>
+
+</body>
+</html>
