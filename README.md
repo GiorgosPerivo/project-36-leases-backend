@@ -32,6 +32,8 @@ When runs the application, the `SetupDataLoader` will execute and the following 
 * Privileges: MANAGE_USERS, MANAGE_ROLES, MANAGE_PRIVILEGES, SHOW_LEASES, CREATE_LEASE, ACCEPT_LEASE, ADD_DETAILS_TO_LEASE
 * Roles: ADMIN, LEASER, TENANT
 * An admin user with `username: admin, password: testadmin123`
+* A leaser user with `username: leaser, password: testleaser123`
+* A tenant user with `username: tenant, password: testtenant123`
 
 # User Manual
 
