@@ -20,7 +20,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
 
-
     @Autowired
     private AuthEntryPointJwt unauthorizedHandler;
 
@@ -31,7 +30,7 @@ public class SecurityConfig {
 
 
     @Bean
-    public AuthenticationManager authenticationManagerBean (AuthenticationConfiguration authConfig) throws Exception {
+    public AuthenticationManager authenticationManagerBean(AuthenticationConfiguration authConfig) throws Exception {
         return authConfig.getAuthenticationManager();
 
     }
@@ -47,6 +46,17 @@ public class SecurityConfig {
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests().antMatchers("/api/auth/**").permitAll()
+                .antMatchers(
+                        "/v2/api-docs",
+                        "/swagger-resources",
+                        "/swagger-resources/**",
+                        "/configuration/ui",
+                        "/configuration/security",
+                        "/swagger-ui.html",
+                        "/webjars/**",
+                        // -- Swagger UI v3 (OpenAPI)
+                        "/v3/api-docs/**",
+                        "/swagger-ui/**").permitAll()
                 .antMatchers("/api/test/**").permitAll()
                 .anyRequest().authenticated();
 
