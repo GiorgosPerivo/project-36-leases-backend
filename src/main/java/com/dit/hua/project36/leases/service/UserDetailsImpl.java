@@ -41,10 +41,10 @@ public class UserDetailsImpl implements UserDetails {
 
         Role userRole = user.getRole();
 
-        authorities.add(new SimpleGrantedAuthority(userRole.getName().name()));
+        authorities.add(new SimpleGrantedAuthority(userRole.getName()));
 
         userRole.getPrivileges().stream()
-                .map(p -> new SimpleGrantedAuthority(p.getName().name())).forEach(authorities::add);
+                .map(p -> new SimpleGrantedAuthority(p.getName())).forEach(authorities::add);
 
         return new UserDetailsImpl(
                 user.getId(),

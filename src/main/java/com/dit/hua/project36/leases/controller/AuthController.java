@@ -5,7 +5,6 @@ import com.dit.hua.project36.leases.entity.ERole;
 import com.dit.hua.project36.leases.entity.Role;
 import com.dit.hua.project36.leases.entity.User;
 import com.dit.hua.project36.leases.payload.request.LoginRequest;
-import com.dit.hua.project36.leases.payload.request.SignupRequest;
 import com.dit.hua.project36.leases.payload.response.JwtResponse;
 import com.dit.hua.project36.leases.payload.response.MessageResponse;
 import com.dit.hua.project36.leases.repository.RoleRepository;
@@ -21,9 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -64,55 +61,5 @@ public class AuthController {
                 userDetails.getUsername(),
                 userDetails.getEmail(),
                 roles));
-    }
-
-    @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
-        if (userRepository.existsByUsername(signUpRequest.getUsername())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Error: Username is already taken!"));
-        }
-
-        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Error: Email is already in use!"));
-        }
-
-        // Create new user's account
-        User user = new User(signUpRequest.getUsername(),
-                signUpRequest.getEmail(),
-                encoder.encode(signUpRequest.getPassword()));
-
-       String roleString = signUpRequest.getRole();
-
-
-
-        if (roleString == null) {
-          user.setRole(roleRepository.findByName(ERole.ROLE_TENANT)
-                  .orElseThrow(() -> new RuntimeException("Error: Role is not found.")));
-        } else {
-            switch (roleString) {
-                case "admin":
-                    user.setRole(roleRepository.findByName(ERole.ROLE_ADMIN)
-                            .orElseThrow(() -> new RuntimeException("Error: Role is not found.")));
-
-                    break;
-                case "leaser":
-                    user.setRole(roleRepository.findByName(ERole.ROLE_LEASER)
-                            .orElseThrow(() -> new RuntimeException("Error: Role is not found.")));
-
-                    break;
-                default:
-                    user.setRole(roleRepository.findByName(ERole.ROLE_TENANT)
-                            .orElseThrow(() -> new RuntimeException("Error: Role is not found.")));
-            }
-
-        }
-
-        userRepository.save(user);
-
-        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
 }

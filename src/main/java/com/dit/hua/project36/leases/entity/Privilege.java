@@ -8,29 +8,28 @@ public class Privilege {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
-    @Enumerated(EnumType.STRING)
     @Column(length = 255)
-    private EPrivilege name;
+    private String name;
 
     public Privilege() {
 
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public EPrivilege getName() {
+    public String getName() {
         return name;
     }
 
-    public void setName(EPrivilege name) {
+    public void setName(String name) {
         this.name = name;
     }
 }

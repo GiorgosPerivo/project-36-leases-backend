@@ -70,7 +70,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
 
 
         // Create admin
-        Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN).orElseThrow();
+        Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN.name()).orElseThrow();
 
         Optional<User> foundAdmin = userRepository.findByUsername("admin");
 
@@ -89,11 +89,11 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
 
     @Transactional
     Privilege createPrivilegeIfNotFound(EPrivilege privilegeName) {
-        Optional<Privilege> foundPrivilege = privilegeRepository.findByName(privilegeName);
+        Optional<Privilege> foundPrivilege = privilegeRepository.findByName(privilegeName.name());
 
         if (foundPrivilege.isEmpty()) {
             Privilege privilege = new Privilege();
-            privilege.setName(privilegeName);
+            privilege.setName(privilegeName.name());
             privilegeRepository.save(privilege);
             return privilege;
 
@@ -104,11 +104,11 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
     @Transactional
     Role createRoleIfNotFound(
             ERole roleName, Collection<Privilege> privileges) {
-        Optional<Role> foundRole = roleRepository.findByName(roleName);
+        Optional<Role> foundRole = roleRepository.findByName(roleName.name());
 
         if (foundRole.isEmpty()) {
             Role role = new Role();
-            role.setName(roleName);
+            role.setName(roleName.name());
             role.setPrivileges((Set<Privilege>) privileges);
             roleRepository.save(role);
             return role;

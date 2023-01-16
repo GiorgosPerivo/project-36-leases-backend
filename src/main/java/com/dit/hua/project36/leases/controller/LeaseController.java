@@ -17,13 +17,13 @@ public class LeaseController {
     private LeaseDAO leaseDAO;
 
     @GetMapping("")
-    @PreAuthorize("hasRole('SHOW_LEASES')")
+    @PreAuthorize("hasAuthority('SHOW_LEASES')")
     List<Lease> getAll() {
-       return leaseDAO.findAll();
+        return leaseDAO.findAll();
     }
 
     @PostMapping("")
-    @PreAuthorize("hasRole('CREATE_LEASE')")
+    @PreAuthorize("hasAuthority('CREATE_LEASE')")
     Lease save(@RequestBody Lease lease) {
         lease.setId(0);
         leaseDAO.save(lease);
@@ -31,6 +31,7 @@ public class LeaseController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('SHOW_LEASES')")
     Lease get(@PathVariable int id) {
         return leaseDAO.findById(id);
     }
