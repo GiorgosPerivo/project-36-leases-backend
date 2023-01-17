@@ -11,7 +11,7 @@ import java.util.Set;
 public class Lease {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @NotBlank
     @Size(max = 255)
@@ -39,7 +39,7 @@ public class Lease {
     @Column(precision=10, scale=2)
     private Double amount;
 
-    private Boolean isFinalized;
+    private Boolean isFinalized = false;
 
     @ManyToOne
     private User leaser;
@@ -50,11 +50,11 @@ public class Lease {
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<User> tenants = new HashSet<>();
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

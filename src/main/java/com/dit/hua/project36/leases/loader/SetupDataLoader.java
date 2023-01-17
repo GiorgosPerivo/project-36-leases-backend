@@ -83,6 +83,32 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
             userRepository.save(user);
         }
 
+        // Create leaser
+        Role leaserRole = roleRepository.findByName(ERole.ROLE_LEASER.name()).orElseThrow();
+        Optional<User> foundLeaser = userRepository.findByUsername("leaser");
+
+        if (foundLeaser.isEmpty()) {
+            User leaser = new User();
+            leaser.setUsername("leaser");
+            leaser.setEmail("leaser@test.com");
+            leaser.setPassword(passwordEncoder.encode("testleaser123"));
+            leaser.setRole(leaserRole);
+            userRepository.save(leaser);
+        }
+
+        // Create tenant
+        Role tenantRole = roleRepository.findByName(ERole.ROLE_TENANT.name()).orElseThrow();
+        Optional<User> foundTenant = userRepository.findByUsername("tenant");
+
+        if (foundTenant.isEmpty()) {
+            User tenant = new User();
+            tenant.setUsername("tenant");
+            tenant.setEmail("tenant@test.com");
+            tenant.setPassword(passwordEncoder.encode("testtenant123"));
+            tenant.setRole(tenantRole);
+            userRepository.save(tenant);
+        }
+
 
         alreadySetup = true;
     }
