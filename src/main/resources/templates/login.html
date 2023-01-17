@@ -2,23 +2,22 @@
 <html lang="en"
       xmlns:th="http://thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{page_layout/layout}">
 <head>
   <meta charset="UTF-8">
-  <title>Register</title>
+  <title>Login</title>
 </head>
 <body>
 <div layout:fragment="main-content">
-  <form class="row g-3" th:action="@{/register}" th:object="${user}" method="post">
+  <form class="row g-3" th:action="@{/login}" th:object="${user}" method="post">
     <div class="form-outline mb-4">
       <label for="username" class="form-label">Username</label>
-      <input type="text" th:field="*{username}" id="firstName" placeholder="username" class="form-control">
+      <input type="text" th:field="*{username}" id="username" placeholder="username" class="form-control" required>
       <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
     </div>
     <div class="form-outline mb-4">
       <label for="password" class="form-label">Password</label>
-      <input type="password" th:field="*{password}" id="name" placeholder="password" class="form-control">
+      <input type="password" th:field="*{password}" id="password" placeholder="password" minlength="6" class="form-control" required>
       <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>

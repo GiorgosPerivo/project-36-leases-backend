@@ -51,31 +51,8 @@ public class UserController {
                 encoder.encode(createUserRequest.getPassword()));
 
         String roleString = createUserRequest.getRole();
-
-        if (roleString == null) {
-            user.setRole(roleRepository.findByName(ERole.ROLE_TENANT.name())
+        user.setRole(roleRepository.findByName(roleString)
                     .orElseThrow(() -> new RuntimeException("Error: Role is not found.")));
-        } else {
-            switch (roleString) {
-                case "admin":
-                    user.setRole(roleRepository.findByName(ERole.ROLE_ADMIN.name())
-                            .orElseThrow(() -> new RuntimeException("Error: Role is not found.")));
-
-                    break;
-                case "leaser":
-                    user.setRole(roleRepository.findByName(ERole.ROLE_LEASER.name())
-                            .orElseThrow(() -> new RuntimeException("Error: Role is not found.")));
-
-                    break;
-                case "tenant":
-                    user.setRole(roleRepository.findByName(ERole.ROLE_TENANT.name())
-                            .orElseThrow(() -> new RuntimeException("Error: Role is not found.")));
-                default:
-                    user.setRole(roleRepository.findByName(roleString)
-                            .orElseThrow(() -> new RuntimeException("Error: Role is not found.")));
-            }
-
-        }
 
         userRepository.save(user);
 

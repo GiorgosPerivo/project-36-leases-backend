@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en"
+      xmlns:th="http://thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{page_layout/layout}">
+<head>
+  <meta charset="UTF-8">
+  <title>Create Role</title>
+</head>
+<body>
+<div layout:fragment="main-content">
+  <form name="createRoleForm" class="row g-3" >
+    <div class="form-outline mb-4">
+      <label for="name" class="form-label">name</label>
+      <input type="text"  id="name" placeholder="name" class="form-control">
+    </div>
+    <div class="form-outline mb-4">
+      <label for="name" class="form-label">privileges</label>
+      <select class="form-control" id="privileges" multiple>
+        <option th:each="privilege: ${privilegeList}" th:value="${privilege.id}" th:text="${privilege.name}">
+      </option>
+    </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+
+
+  <script type="text/javascript" th:inline="javascript">
+
+    $("[name='createRoleForm']").submit(function(e) {
+
+      e.preventDefault();
+      const urlCall = "/api/roles";
+      $.ajax({
+        url : urlCall,
+        type : 'POST',
+        contentType: "application/json",
+        dataType: 'json',
+        headers: {
+          "Authorization": "Bearer " + token
+        },
+        data: JSON.stringify({
+          name: $('#name').val(),
+          privilegeIds: $('#privileges').val(),
+        }),
+        success : function(result) {
+          console.log(result);
+          $(location).attr("href", value="/roles");
+        },
+        error : function(result) {
+          alert(result.responseJSON.message);
+        },
+      });
+    });
+  </script>
+
+</div>
+</body>
+</html>

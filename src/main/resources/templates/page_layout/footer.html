@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://thymeleaf.org">
+<html lang="en" xmlns:th="http://thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -7,14 +7,10 @@
 <body>
 
 <footer class="mt-auto text-white-50" th:fragment="footer">
-
-
-    <div sec:authorize="hasRole('ADMIN')">Text visible to admin.</div>
     <div sec:authorize="isAuthenticated()">
-        Text visible only to authenticated users.
-        Authenticated username:
+        Your username:
         <div sec:authentication="name"></div>
-        Authenticated user roles:
+        Your role and privileges:
         <span class="badge bg-info" sec:authentication="principal.authorities"></span>
     </div>
 

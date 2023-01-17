@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en"
+      xmlns:th="http://thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{page_layout/layout}">
+<head>
+  <meta charset="UTF-8">
+  <title>Create Privilege</title>
+</head>
+<body>
+<div layout:fragment="main-content">
+  <form name="createPrivilegeForm" class="row g-3" >
+    <div class="form-outline mb-4">
+      <label for="name" class="form-label">name</label>
+      <input type="text"  id="name" placeholder="name" class="form-control">
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+
+  <script type="text/javascript" th:inline="javascript">
+
+    $("[name='createPrivilegeForm']").submit(function(e) {
+
+      e.preventDefault();
+      const urlCall = "/api/privileges";
+      $.ajax({
+        url : urlCall,
+        type : 'POST',
+        contentType: "application/json",
+        dataType: 'json',
+        headers: {
+          "Authorization": "Bearer " + token
+        },
+        data: JSON.stringify({
+          name: $('#name').val(),
+        }),
+        success : function(result) {
+          console.log(result);
+          $(location).attr("href", value="/privileges");
+        },
+        error : function(result) {
+          alert(result.responseJSON.message);
+        },
+      });
+    });
+  </script>
+
+</div>
+</body>
+</html>

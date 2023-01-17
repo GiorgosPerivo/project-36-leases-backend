@@ -2,6 +2,7 @@
 <html lang="en"
       xmlns:th="http://thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{page_layout/layout}">
 <head>
     <meta charset="UTF-8">
@@ -10,8 +11,11 @@
 <body>
 <div layout:fragment="main-content">
  <h1>
-     Home Page!
+     Welcome to leases catalogue system!
  </h1>
+    <p sec:authorize="!hasRole('ADMIN')" >
+        You do not have access here
+    </p>
 </div>
 </body>
 </html>

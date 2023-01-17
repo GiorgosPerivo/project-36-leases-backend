@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en"
+      xmlns:th="http://thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{page_layout/layout}">
+<head>
+  <meta charset="UTF-8">
+  <title>Create User</title>
+</head>
+<body>
+<div layout:fragment="main-content">
+  <form name="createUserForm" class="row g-3" >
+    <div class="form-outline mb-4">
+      <label for="username" class="form-label">Username</label>
+      <input type="text"  id="username" placeholder="username" class="form-control">
+    </div>
+    <div class="form-outline mb-4">
+      <label for="email" class="form-label">E-mail</label>
+      <input type="text" id="email" placeholder="email" class="form-control">
+    </div>
+    <div class="form-outline mb-4">
+      <label for="role" class="form-label">Role</label>
+      <select class="form-control" id="role">
+        <option th:each="role: ${roleList}" th:value="${role.name}" th:text="${role.name}">
+        </option>
+      </select>
+    </div>
+    <div class="form-outline mb-4">
+      <label for="password" class="form-label">Password</label>
+      <input type="password" id="password" placeholder="password" class="form-control">
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+
+
+  <script type="text/javascript" th:inline="javascript">
+
+    $("[name='createUserForm']").submit(function(e) {
+
+      e.preventDefault();
+      const urlCall = "/api/users";
+      $.ajax({
+        url : urlCall,
+        type : 'POST',
+        contentType: "application/json",
+        dataType: 'json',
+        headers: {
+          "Authorization": "Bearer " + token
+        },
+        data: JSON.stringify({
+          username: $('#username').val(),
+          email: $('#email').val(),
+          role: $('#role').val(),
+          password: $('#password').val(),
+        }),
+        success : function(result) {
+          console.log(result);
+          $(location).attr("href", value="/users");
+        },
+        error : function(result) {
+          alert(result.responseJSON.message);
+        },
+      });
+    });
+  </script>
+
+</div>
+</body>
+</html>

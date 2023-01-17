@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{page_layout/layout}">
+<head>
+  <meta charset="UTF-8">
+  <title>Users</title>
+
+  <script type="text/javascript" >
+
+    function deleteBtnClick(id) {
+      const urlCall = "/api/users/" + id;
+      $.ajax({
+        url : urlCall,
+        type : 'DELETE',
+        contentType: "application/json",
+        headers: {
+          "Authorization": "Bearer " + token
+        },
+        success : function(result) {
+          console.log(result);
+          $(location).attr("href", value="/users");
+        },
+        error : function(result) {
+          alert(result.responseJSON.message);
+        },
+      });
+    }
+  </script>
+</head>
+<body>
+<div layout:fragment="main-content">
+  <a class="text-white-50 fw-bold py-1 px-0" href="createUser.html" th:href="@{/createUser}">Create user</a>
+  <table class="table mt-auto text-white">
+    <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Username</th>
+      <th scope="col">Email</th>
+      <th scope="col">Role</th>
+      <th scope="col">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user,iter: ${userList}">
+      <th scope="row" th:text="${iter.index}"></th>
+      <td th:text="${user.username}"></td>
+      <td th:text="${user.email}"></td>
+      <td th:text="${user.role.getName()}"></td>
+      <td>
+        <button th:attr="onclick=|deleteBtnClick('${user.id}')|" class="btn btn-danger">Delete</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>

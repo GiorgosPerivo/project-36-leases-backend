@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{page_layout/layout}">
+<head>
+  <meta charset="UTF-8">
+  <title>Privileges</title>
+
+  <script type="text/javascript" >
+
+      function deleteBtnClick(id) {
+        const urlCall = "/api/privileges/" + id;
+        $.ajax({
+          url : urlCall,
+          type : 'DELETE',
+          contentType: "application/json",
+          headers: {
+            "Authorization": "Bearer " + token
+          },
+          success : function(result) {
+            console.log(result);
+            $(location).attr("href", value="/privileges");
+          },
+          error : function(result) {
+            alert(result.responseJSON.message);
+          },
+        });
+      }
+  </script>
+</head>
+<body>
+<div layout:fragment="main-content">
+  <a class="text-white-50 fw-bold py-1 px-0" href="createPrivilege.html" th:href="@{/createPrivilege}">Create privilege</a>
+  <table class="table mt-auto text-white">
+    <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="privilege,iter: ${privilegeList}">
+      <th scope="row" th:text="${iter.index}"></th>
+      <td th:text="${privilege.name}"></td>
+      <td>
+        <button th:attr="onclick=|deleteBtnClick('${privilege.id}')|" class="btn btn-danger">Delete</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+
+
+</body>
+</html>

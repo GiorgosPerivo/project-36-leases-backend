@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://thymeleaf.org">
+<html lang="en" xmlns:th="http://thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -7,11 +7,12 @@
 <body>
 <header class="mb-auto" th:fragment="header">
     <div>
-        <h3 class="float-md-start mb-0">Cover</h3>
+        <h3 class="float-md-start mb-0">Leases catalogue</h3>
         <nav class="nav nav-masthead justify-content-center float-md-end">
-            <a class="nav-link fw-bold py-1 px-0 active" aria-current="page" href="/" th:href="@{/}">Home</a>
-            <a sec:authorize="hasRole('ADMIN')" class="nav-link fw-bold py-1 px-0" href="/userslist" th:href="@{/userslist}">Users</a>
-            <a sec:authorize="hasRole('ADMIN')" class="nav-link fw-bold py-1 px-0" href="/createuser" th:href="@{/createuser}">Create User</a>
+            <a class="nav-link fw-bold py-1 px-0" aria-current="page" href="/" th:href="@{/}">Home</a>
+            <a sec:authorize="hasRole('ADMIN')" class="nav-link fw-bold py-1 px-0" href="/users" th:href="@{/users}">Users</a>
+            <a sec:authorize="hasRole('ADMIN')" class="nav-link fw-bold py-1 px-0" href="/roles" th:href="@{/roles}">Roles</a>
+            <a sec:authorize="hasRole('ADMIN')" class="nav-link fw-bold py-1 px-0" href="/privileges" th:href="@{/privileges}">Privileges</a>
             <a sec:authorize="isAuthenticated()" class="nav-link fw-bold py-1 px-0" href="/logout" th:href="@{/logout}">Logout</a>
             <a sec:authorize="!isAuthenticated()" class="nav-link fw-bold py-1 px-0" href="/login" th:href="@{/login}">Login</a>
         </nav>

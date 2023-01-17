@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -44,8 +45,16 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests().antMatchers("/api/auth/**").permitAll()
+                .authorizeRequests()
+                .antMatchers("/").permitAll()
+                .antMatchers("/login*").permitAll()
+                .antMatchers("/users").hasRole("ADMIN")
+                .antMatchers("/privileges").hasRole("ADMIN")
+                .antMatchers("/roles").hasRole("ADMIN")
+                .antMatchers("/createUser").hasRole("ADMIN")
+                .antMatchers("/createPrivilege").hasRole("ADMIN")
+                .antMatchers("/createRole").hasRole("ADMIN")
+                .antMatchers("/api/auth/**").permitAll()
                 .antMatchers(
                         "/v2/api-docs",
                         "/swagger-resources",
@@ -58,11 +67,27 @@ public class SecurityConfig {
                         "/v3/api-docs/**",
                         "/swagger-ui/**").permitAll()
                 .antMatchers("/api/test/**").permitAll()
-                .anyRequest().authenticated();
+                .anyRequest().authenticated()
+                .and().formLogin().defaultSuccessUrl("/", true)
+                .permitAll()
+                .and()
+                .logout()
+                .permitAll();
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+
+        http.headers().frameOptions().sameOrigin();
+
         return http.build();
     }
+
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) ->
+                web.ignoring().antMatchers(
+                        "/css/**", "/js/**", "/images/**", "/**/favicon.ico");
+    }
+
 }
 
 
