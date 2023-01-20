@@ -35,6 +35,8 @@ When runs the application, the `SetupDataLoader` will execute and the following 
 * A leaser user with `username: leaser, password: testleaser123`
 * A tenant user with `username: tenant, password: testtenant123`
 
+You can access the frontend of the admin in http://localhost:8080/login with the admin credentials
+
 # User Manual
 
 The user manual can be found at http://localhost:8080/swagger-ui/index.html# when the application is running. We used swagger for the documentation of the API.
