@@ -60,6 +60,13 @@ public class UserController {
     }
 
 
+    @GetMapping("/tenants")
+    @PreAuthorize("hasAuthority('CREATE_LEASE')")
+    public ResponseEntity<?> getTenants() {
+        return ResponseEntity.ok(userRepository.findAllByRoleName(ERole.ROLE_TENANT.name()));
+    }
+
+
     @DeleteMapping("/{userId}")
     @PreAuthorize("hasAuthority('MANAGE_USERS')")
     public ResponseEntity<?> removeUser(@PathVariable Long userId) {
